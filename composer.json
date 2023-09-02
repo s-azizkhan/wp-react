@@ -1,7 +1,7 @@
 {
-    "name": "s-azizkhan/wp-react",
+    "name": "s-azizkhan/wp-react-kit",
     "type": "wordpress-plugin",
-    "homepage": "https://github.com/s-azizkhan/wp-react",
+    "homepage": "https://github.com/s-azizkhan/wp-react-kit",
     "description": "A WordPress plugin for integrating ReactJS.",
     "keywords": [
         "wordpress",
@@ -12,8 +12,8 @@
     ],
     "license": "GPL-2.0",
     "support": {
-        "issues": "https://github.com/s-azizkhan/wp-react/issues",
-        "source": "https://github.com/s-azizkhan/wp-react"
+        "issues": "https://github.com/s-azizkhan/wp-react-kit/issues",
+        "source": "https://github.com/s-azizkhan/wp-react-kit"
     },
     "config": {
         "optimize-autoloader": true,
@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SAzizKhan\\WpReact\\": "src/"
+            "SAzizKhan\\WpReactKit\\": "src/"
         },
         "files": [
             "src/helper.php"
@@ -55,7 +55,7 @@
     "extra": {
         "wordpress-plugin": {
             "name": "WP React",
-            "slug": "wp-react"
+            "slug": "wp-react-kit"
         },
         "installer-paths": {
             "public/wp-content/plugins/{$name}/": ["type:wordpress-plugin"]
