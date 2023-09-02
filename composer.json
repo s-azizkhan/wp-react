@@ -25,10 +25,10 @@
     },
     "autoload": {
         "psr-4": {
-            "SAzizKhan\\WpReactKit\\": "src/"
+            "SAzizKhan\\WpReactKit\\": "core/"
         },
         "files": [
-            "src/helper.php"
+            "core/helper.php"
         ]
     },
     "authors": [

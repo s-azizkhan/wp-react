@@ -37,6 +37,7 @@ if (!defined('ABSPATH')) {
  */
 define('WP_REACT_KIT_VERSION', '1.0.0');
 
+define('WP_REACT_KIT_SHORTNAME', 'wp-react-kit');
 define('WP_REACT_KIT_TEXTDOMAIN', 'wp-react-kit');
 define('WP_REACT_KIT_NAME', 'WP React Kit');
 define('WP_REACT_KIT_PLUGIN_ROOT', plugin_dir_path(__FILE__));
@@ -118,7 +119,8 @@ if (!$requirements->satisfied()) {
 }
 // Documentation to integrate GitHub, GitLab or BitBucket https://github.com/YahnisElsts/plugin-update-checker/blob/master/README.md
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
-$myUpdateChecker = PucFactory::buildUpdateChecker( 'https://github.com/s-azizkhan/wp-react-kit', __FILE__, 'wp-react-kit' );
+
+$myUpdateChecker = PucFactory::buildUpdateChecker('https://github.com/s-azizkhan/wp-react-kit', __FILE__, 'wp-react-kit');
 //Set the branch that contains the stable release.
 $myUpdateChecker->setBranch('master');
 
@@ -127,6 +129,7 @@ $myUpdateChecker->setBranch('master');
  * admin-specific hooks, and public-facing site hooks.
  */
 require plugin_dir_path(__FILE__) . 'includes/class-wp-react-kit.php';
+
 
 /**
  * Begins execution of the plugin.
@@ -142,5 +145,7 @@ function run_wp_react_kit()
 
 	$plugin = new Wp_React_Kit();
 	$plugin->run();
+
+	(new \SAzizKhan\WpReactKit\WpReactKitInit())->run();
 }
 run_wp_react_kit();
