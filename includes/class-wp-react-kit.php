@@ -9,8 +9,8 @@
  * @link       https://github.com/s-azizkhan
  * @since      1.0.0
  *
- * @package    Wp_React
- * @subpackage Wp_React/includes
+ * @package    Wp_React_Kit
+ * @subpackage Wp_React_Kit/includes
  */
 
 /**
@@ -23,11 +23,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Wp_React
- * @subpackage Wp_React/includes
+ * @package    Wp_React_Kit
+ * @subpackage Wp_React_Kit/includes
  * @author     Aziz Khan <sakatazizkhan1@gmail.com>
  */
-class Wp_React {
+class Wp_React_Kit {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -35,7 +35,7 @@ class Wp_React {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Wp_React_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Wp_React_Kit_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -67,12 +67,12 @@ class Wp_React {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'WP_REACT_VERSION' ) ) {
-			$this->version = WP_REACT_VERSION;
+		if ( defined( 'WP_REACT_KIT_VERSION' ) ) {
+			$this->version = WP_REACT_KIT_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->plugin_name = 'wp-react';
+		$this->plugin_name = 'wp-react-kit';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -86,10 +86,10 @@ class Wp_React {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Wp_React_Loader. Orchestrates the hooks of the plugin.
-	 * - Wp_React_i18n. Defines internationalization functionality.
-	 * - Wp_React_Admin. Defines all hooks for the admin area.
-	 * - Wp_React_Public. Defines all hooks for the public side of the site.
+	 * - Wp_React_Kit_Loader. Orchestrates the hooks of the plugin.
+	 * - Wp_React_Kit_i18n. Defines internationalization functionality.
+	 * - Wp_React_Kit_Admin. Defines all hooks for the admin area.
+	 * - Wp_React_Kit_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -103,33 +103,33 @@ class Wp_React {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-react-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-react-kit-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-react-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-react-kit-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wp-react-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wp-react-kit-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wp-react-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wp-react-kit-public.php';
 
-		$this->loader = new Wp_React_Loader();
+		$this->loader = new Wp_React_Kit_Loader();
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Wp_React_i18n class in order to set the domain and to register the hook
+	 * Uses the Wp_React_Kit_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -137,7 +137,7 @@ class Wp_React {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Wp_React_i18n();
+		$plugin_i18n = new Wp_React_Kit_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -152,7 +152,7 @@ class Wp_React {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Wp_React_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Wp_React_Kit_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -168,7 +168,7 @@ class Wp_React {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Wp_React_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Wp_React_Kit_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -199,7 +199,7 @@ class Wp_React {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    Wp_React_Loader    Orchestrates the hooks of the plugin.
+	 * @return    Wp_React_Kit_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;

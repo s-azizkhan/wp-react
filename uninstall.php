@@ -22,7 +22,7 @@
  * @link       https://github.com/s-azizkhan
  * @since      1.0.0
  *
- * @package    Wp_React
+ * @package    Wp_React_Kit
  */
 
 // If uninstall not called from WordPress, then exit.

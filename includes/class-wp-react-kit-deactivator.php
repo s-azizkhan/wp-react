@@ -6,8 +6,8 @@
  * @link       https://github.com/s-azizkhan
  * @since      1.0.0
  *
- * @package    Wp_React
- * @subpackage Wp_React/includes
+ * @package    Wp_React_Kit
+ * @subpackage Wp_React_Kit/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Wp_React
- * @subpackage Wp_React/includes
+ * @package    Wp_React_Kit
+ * @subpackage Wp_React_Kit/includes
  * @author     Aziz Khan <sakatazizkhan1@gmail.com>
  */
-class Wp_React_Deactivator {
+class Wp_React_Kit_Deactivator {
 
 	/**
 	 * Short Description. (use period)

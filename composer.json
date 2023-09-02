@@ -25,8 +25,11 @@
     },
     "autoload": {
         "psr-4": {
-            "WpReact\\": "src/"
-        }
+            "SAzizKhan\\WpReact\\": "src/"
+        },
+        "files": [
+            "src/helper.php"
+        ]
     },
     "authors": [
         {
@@ -53,6 +56,9 @@
         "wordpress-plugin": {
             "name": "WP React",
             "slug": "wp-react"
+        },
+        "installer-paths": {
+            "public/wp-content/plugins/{$name}/": ["type:wordpress-plugin"]
         }
     },
     "prefer-stable": true

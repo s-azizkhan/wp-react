@@ -8,8 +8,8 @@
  * @link       https://github.com/s-azizkhan
  * @since      1.0.0
  *
- * @package    Wp_React
- * @subpackage Wp_React/public/partials
+ * @package    Wp_React_Kit
+ * @subpackage Wp_React_Kit/public/partials
  */
 ?>
 

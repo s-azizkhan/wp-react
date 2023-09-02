@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== WP React Kit ===
 Contributors: (this should be a list of wordpress.org userid's)
 Donate link: https://github.com/s-azizkhan
 Tags: comments, spam

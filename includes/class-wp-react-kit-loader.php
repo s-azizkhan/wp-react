@@ -6,8 +6,8 @@
  * @link       https://github.com/s-azizkhan
  * @since      1.0.0
  *
- * @package    Wp_React
- * @subpackage Wp_React/includes
+ * @package    Wp_React_Kit
+ * @subpackage Wp_React_Kit/includes
  */
 
 /**
@@ -17,11 +17,11 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Wp_React
- * @subpackage Wp_React/includes
+ * @package    Wp_React_Kit
+ * @subpackage Wp_React_Kit/includes
  * @author     Aziz Khan <sakatazizkhan1@gmail.com>
  */
-class Wp_React_Loader {
+class Wp_React_Kit_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.

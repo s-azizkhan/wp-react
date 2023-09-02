@@ -9,8 +9,8 @@
  * @link       https://github.com/s-azizkhan
  * @since      1.0.0
  *
- * @package    Wp_React
- * @subpackage Wp_React/includes
+ * @package    Wp_React_Kit
+ * @subpackage Wp_React_Kit/includes
  */
 
 /**
@@ -20,11 +20,11 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    Wp_React
- * @subpackage Wp_React/includes
+ * @package    Wp_React_Kit
+ * @subpackage Wp_React_Kit/includes
  * @author     Aziz Khan <sakatazizkhan1@gmail.com>
  */
-class Wp_React_i18n {
+class Wp_React_Kit_i18n {
 
 
 	/**
@@ -35,7 +35,7 @@ class Wp_React_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'wp-react',
+			'wp-react-kit',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
