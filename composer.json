@@ -1,0 +1,59 @@
+{
+    "name": "s-azizkhan/wp-react",
+    "type": "wordpress-plugin",
+    "homepage": "https://github.com/s-azizkhan/wp-react",
+    "description": "A WordPress plugin for integrating ReactJS.",
+    "keywords": [
+        "wordpress",
+        "plugin",
+        "react",
+        "reactjs",
+        "reactjs-plugin"
+    ],
+    "license": "GPL-2.0",
+    "support": {
+        "issues": "https://github.com/s-azizkhan/wp-react/issues",
+        "source": "https://github.com/s-azizkhan/wp-react"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/installers": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "WpReact\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aziz Khan",
+            "email": "sakatazizkhan1@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">7.4",
+        "composer/installers": "^2.2.0" 
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "0.7.0",
+        "wptrt/wpthemereview": "0.2.1",
+        "php-parallel-lint/php-parallel-lint": "1.2.0",
+        "wp-cli/i18n-command": "2.2.5",
+        "kint-php/kint": "*",
+        "phpcompatibility/php-compatibility": "*",
+        "phpunit/phpunit": "*",
+        "wp-coding-standards/wpcs": "2.3",
+        "squizlabs/php_codesniffer": "*"
+    },
+    "extra": {
+        "wordpress-plugin": {
+            "name": "WP React",
+            "slug": "wp-react"
+        }
+    },
+    "prefer-stable": true
+}
