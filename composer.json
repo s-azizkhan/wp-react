@@ -39,7 +39,9 @@
     ],
     "require": {
         "php": ">7.4",
-        "composer/installers": "^2.2.0" 
+        "composer/installers": "^2.2.0",
+        "micropackage/requirements": "^1.2",
+        "yahnis-elsts/plugin-update-checker": "^5.2" 
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "0.7.0",

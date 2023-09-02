@@ -20,7 +20,8 @@
  * @subpackage Wp_React_Kit/includes
  * @author     Aziz Khan <sakatazizkhan1@gmail.com>
  */
-class Wp_React_Kit_Activator {
+class Wp_React_Kit_Activator
+{
 
 	/**
 	 * Short Description. (use period)
