@@ -43,7 +43,7 @@ class ReactBuildManager
      */
     public function run()
     {
-        $this->unzip_folder_path = WP_REACT_KIT_PLUGIN_ROOT . "/public/js/react-kit/";
+        $this->unzip_folder_path = WP_REACT_KIT_PLUGIN_ROOT . "/resources/js/";
         $this->page_name = __('React Build Manager');
         $this->page_title = __('React Build Manager');
         $this->setting_slug = WP_REACT_KIT_TEXTDOMAIN . '-build-manager';
@@ -278,5 +278,9 @@ class ReactBuildManager
             // Delete the error message transient
             delete_transient('error_message');
         }
+    }
+
+    public static function get_build_dir() {
+        return WP_REACT_KIT_PLUGIN_ROOT . "/resources/js/build";
     }
 }

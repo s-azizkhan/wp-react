@@ -2,6 +2,8 @@
 
 namespace SAzizKhan\WpReactKit\ShortCodes;
 
+use SAzizKhan\WpReactKit\ClassLoader;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -12,14 +14,14 @@ defined('ABSPATH') || exit;
  * @package SAzizKhan\WpReactKit\ShortCodes
  * @author S.Aziz Khan <sakatazizkhan1@gmail.com>
  */
-class ShortcodeInit
+class ShortcodeInit extends ClassLoader
 {
     /**
      * Loads the shortcodes.
      *
      * This method creates new instances of shortcode handlers.
      */
-    public function load()
+    protected function run()
     {
         foreach ($this->get_shortcodes() as $short_code => $handler_class) {
             (new $handler_class())->load();

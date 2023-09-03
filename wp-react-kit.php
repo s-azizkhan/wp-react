@@ -37,10 +37,11 @@ if (!defined('ABSPATH')) {
  */
 define('WP_REACT_KIT_VERSION', '1.0.0');
 
-define('WP_REACT_KIT_SHORTNAME', 'wp-react-kit');
+define('WP_REACT_KIT_SHORTNAME', 'wrk');
 define('WP_REACT_KIT_TEXTDOMAIN', 'wp-react-kit');
 define('WP_REACT_KIT_NAME', 'WP React Kit');
 define('WP_REACT_KIT_PLUGIN_ROOT', plugin_dir_path(__FILE__));
+define('WP_REACT_KIT_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WP_REACT_KIT_PLUGIN_ABSOLUTE', __FILE__);
 define('WP_REACT_KIT_MIN_PHP_VERSION', '7.4');
 define('WP_REACT_KIT_WP_VERSION', '6.3');
