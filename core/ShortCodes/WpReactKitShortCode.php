@@ -89,19 +89,13 @@ abstract class WpReactKitShortCode
      */
     protected function renderOutput($content)
     {
-        
-        // Implement your shortcode rendering logic here
-        // You can use the $content and $attributes variables
-        
-        // Example: Return the rendered output as HTML
-        
         // Start output buffering.
         ob_start();
-        
-        echo $content;
+
+        echo ($content);
         // Return the output buffer contents.
         $html = ob_get_clean();
-        echo($html);
+        echo ($html);
         return $html;
     }
 

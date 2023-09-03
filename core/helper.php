@@ -30,7 +30,7 @@ function azdebug($data)
     echo '</pre>';
 }
 // Recursive function to list files in a directory and its subdirectories
-function list_files_recursively($dir, $allowed_extensions = array())
+function list_files_recursively($dir, $allowed_extensions = array(), $explode_path = null)
 {
     $files = array();
 
@@ -41,13 +41,13 @@ function list_files_recursively($dir, $allowed_extensions = array())
                 $itemPath = $dir . '/' . $item;
                 if (is_dir($itemPath)) {
                     // Recursively list files in subdirectories
-                    $subdirFiles = list_files_recursively($itemPath, $allowed_extensions);
+                    $subdirFiles = list_files_recursively($itemPath, $allowed_extensions, $explode_path);
                     $files = array_merge($files, $subdirFiles);
                 } else {
                     // Check if the file has an allowed extension
                     $file_extension = strtolower(pathinfo($itemPath, PATHINFO_EXTENSION));
                     if (in_array($file_extension, $allowed_extensions)) {
-                        $itemPathOnly = explode('build', $itemPath)[1];
+                        $itemPathOnly = $explode_path ? explode($explode_path, $itemPath)[1] : $itemPath;
                         $files[] = str_replace('//', '/', $itemPathOnly);
                     }
                 }
@@ -56,4 +56,20 @@ function list_files_recursively($dir, $allowed_extensions = array())
     }
 
     return $files;
+}
+
+function removeFolder($folderPath)
+{
+    // Remove all files and subdirectories within the folder
+    $files = glob($folderPath . '/*');
+    foreach ($files as $file) {
+        if (is_file($file)) {
+            unlink($file);
+        } elseif (is_dir($file)) {
+            removeFolder($file);
+        }
+    }
+
+    // Remove the folder itself
+    rmdir($folderPath);
 }

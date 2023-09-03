@@ -44,13 +44,10 @@ class ReactBuildManager
     public function run()
     {
         $this->unzip_folder_path = WP_REACT_KIT_PLUGIN_ROOT . "/resources/js/";
-        $this->page_name = __('React Build Manager');
-        $this->page_title = __('React Build Manager');
+        $this->page_name = __('Build Manager');
+        $this->page_title = __('Wp React Kit Build Manager');
         $this->setting_slug = WP_REACT_KIT_TEXTDOMAIN . '-build-manager';
-        $this->build_folder_name = 'build';
-
-        # Add menu
-        add_action('wp_react_kit_admin_settings_menu', array($this, 'add_admin_submenu'));
+        $this->build_folder_name = 'dist';
 
         $this->actions_init();
     }
@@ -63,12 +60,50 @@ class ReactBuildManager
      */
     public function actions_init()
     {
+        # Add menu
+        add_action('wp_react_kit_admin_settings_menu', array($this, 'add_admin_submenu'));
+
         # Handle form requests.
         add_action('admin_init', array($this, 'handle_form_requests'));
         # Hook into the admin_notices action
         add_action('admin_notices', array($this, 'display_error_notice'));
+
+        # Handle updating active build
+        add_action('admin_init', [$this, 'handle_set_active_build_request']);
     }
 
+    function handle_set_active_build_request()
+    {
+        if (
+            isset($_GET['page']) && $_GET['page'] === 'wp-react-kit-build-manager' &&
+            isset($_GET['set_active_build'])
+        ) {
+            if (
+                !isset($_GET['nonce']) ||
+                !wp_verify_nonce($_GET['nonce'], 'set_active_build_nonce')
+            ) {
+                // Nonce is invalid, handle the error or exit
+                wp_die('Invalid request.', 'Invalid request');
+            }
+            // Ensure that the user has the necessary permissions to perform this action
+            if (current_user_can('manage_options')) {
+                $media_id = intval($_GET['set_active_build']);
+
+                $media_ids = get_option('wp_react_kit_build_media_ids', array());
+                // Check if the media item exists
+                if (in_array($media_id, $media_ids)) {
+                    $zip_file_path = get_attached_file($media_id);
+                    $unzip_status = $this->unzip_build_file($zip_file_path);
+                    if ($unzip_status) {
+                        update_option('wp_react_kit_active_build', $media_id);
+                    }
+                }
+            }
+            // Redirect back to the build manager page or any other desired location
+            wp_redirect(admin_url('admin.php?page=wp-react-kit-build-manager'));
+            exit();
+        }
+    }
     /**
      * Add the config page in admin
      *
@@ -152,7 +187,7 @@ class ReactBuildManager
 
                         // Store the array of media IDs in the plugin's options or database table
                         $media_ids[] = $id;
-                        update_option('wp_react_kit_build_media_ids', $media_ids);
+                        update_option('wp_react_kit_build_media_ids', array_unique($media_ids));
                         update_option('wp_react_kit_active_build', $id);
                     }
                     /*
@@ -186,6 +221,8 @@ class ReactBuildManager
     {
         $folderName = $this->build_folder_name . '/';
         $extractFolder = $this->unzip_folder_path . '/' . $folderName;
+        $folderRequire = 'build';
+
         // Create a new ZipArchive instance
         $zip = new ZipArchive();
 
@@ -195,7 +232,7 @@ class ReactBuildManager
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $filename = $zip->getNameIndex($i);
                 // Check if the entry name is "build" (case-insensitive)
-                if (str_contains($filename, $this->build_folder_name)) {
+                if (str_contains($filename, $folderRequire)) {
                     $hasBuildFolder = true;
                     break;  // No need to continue searching
                 }
@@ -215,22 +252,22 @@ class ReactBuildManager
                 mkdir($extractFolder, 0755, true);
             }
             // Extract the contents of the ZIP file to the specified folder
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                // Check if the file or folder name starts with "build/"
-                if (strpos($filename, $folderName) === 0) {
-                    // Extract only the contents of the "build" folder
-                    $extractPath = $extractFolder . substr($filename, 6);  // Remove "build/" prefix
-                    if (substr($filename, -1) == '/') {
-                        // Create a directory
-                        mkdir($extractPath, 0755, true);
-                    } else {
-                        // Extract the file
-                        copy("zip://$zip_file_path#$filename", $extractPath);
-                    }
-                }
-            }
+            //for ($i = 0; $i < $zip->numFiles; $i++) {
+            //    // Check if the file or folder name starts with "build/"
+            //    if (strpos($filename, $folderName) === 0) {
+            //        // Extract only the contents of the "build" folder
+            //        $extractPath = $extractFolder . substr($filename, 6);  // Remove "build/" prefix
+            //        if (substr($filename, -1) == '/') {
+            //            // Create a directory
+            //            mkdir($extractPath, 0755, true);
+            //        } else {
+            //            // Extract the file
+            //            copy("zip://$zip_file_path#$filename", $extractPath);
+            //        }
+            //    }
+            //}
 
-            //$zip->extractTo($this->unzip_folder_path);
+            $zip->extractTo($extractFolder);
             $zip->close();
             // Unzipped successfully!
             return true;
@@ -255,7 +292,7 @@ class ReactBuildManager
         $old_folder_path = $main_path . '/' . $old_folder_name;
 
         if (is_dir($old_folder_path)) {
-            rmdir($old_folder_path);
+            removeFolder($old_folder_path);
             return true;
         }
     }
@@ -280,7 +317,13 @@ class ReactBuildManager
         }
     }
 
-    public static function get_build_dir() {
-        return WP_REACT_KIT_PLUGIN_ROOT . "/resources/js/build";
+    public static function get_build_dir()
+    {
+        return WP_REACT_KIT_PLUGIN_ROOT . "/resources/js/dist";
+    }
+
+    public static function get_build_url()
+    {
+        return WP_REACT_KIT_PLUGIN_URL . "resources/js/dist";
     }
 }

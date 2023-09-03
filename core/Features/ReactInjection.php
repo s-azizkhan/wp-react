@@ -31,15 +31,45 @@ class ReactInjection
     public function actions_init()
     {
         # Added 'inject_id' box
-        add_action('add_meta_boxes', [$this, 'add_inject_id']);
+        add_action('add_meta_boxes', [$this, 'add_injection_meta_box']);
         # To save the value entered in the text input field
         add_action('save_post', [$this, 'save_inject_id_value']);
+
+        # Inject files to the page
+        add_action('wp_react_kit_app_head', [$this, 'enquire_files']);
+    }
+
+    function enquire_files($post)
+    {
+        $selected_files = $post->__get('selected_wp_react_kit_file_path');
+        if (!is_array($selected_files)) {
+            return;
+        }
+        $build_folder = ReactBuildManager::get_build_dir();
+        $build_url = ReactBuildManager::get_build_url();
+        // loop through the selected files & create full url
+        for ($i = 0; $i < count($selected_files); $i++) {
+            $full_path = $build_folder . $selected_files[$i];
+            if (!file_exists($full_path)) {
+                continue;
+            }
+            $selected_files[$i] = $build_url . $selected_files[$i];
+        }
+
+        foreach ($selected_files as $files) {
+            // check is file JS or CSS
+            if (strpos($files, '.js') !== false) {
+                wp_enqueue_script('wp_react_kit_injection', $files, [], WP_REACT_KIT_VERSION, true);
+            } else if (strpos($files, '.css') !== false) {
+                wp_enqueue_style('wp_react_kit_injection', $files, [], WP_REACT_KIT_VERSION, 'all');
+            }
+        }
     }
 
     /**
      * Added 'inject_id' box.
      */
-    function add_inject_id()
+    function add_injection_meta_box()
     {
         $page_template = get_post_meta(get_the_ID(), '_wp_page_template', true);
         // Check if the page template is 'wp-react-kit-app-template.php'
@@ -73,35 +103,46 @@ class ReactInjection
             }
             // Retrieve the list of files in the "build" directory
             $build_folder = ReactBuildManager::get_build_dir(); // Replace with the actual path
-            $wp_react_kit_file_path = list_files_recursively($build_folder, array('js', 'css'));
+            $wp_react_kit_file_path = list_files_recursively($build_folder, array('js', 'css'), 'dist');
 
 ?>
             <div>
 
                 <div>
                     <label for="wp_react_kit_inject_id">FIle Path:</label>
-                    <input type="text" id=iwp_react_kit_inject_id" name="wp_react_kit_inject_id" value="<?php echo esc_attr($react_inject_id); ?>" />
+                    <input class="placeholder-shown:border-gray-500" placeholder="Enter you html inject ID" type="text" id=iwp_react_kit_inject_id" name="wp_react_kit_inject_id" value="<?php echo esc_attr($react_inject_id); ?>" />
                 </div>
 
                 <div>
-                    <label for="wp_react_kit_file_path">File Path:</label>
-                    <?php
-                    echo '<select class="select2" id="wp_react_kit_file_path" name="wp_react_kit_file_path[]" mulitiple>';
-                    echo '<option value="">Select a file</option>';
+                    <label for="wp_react_kit_file_path">
+                        Inject HTML ID:
+                        <select style="width: 50%" class="select2 js-states form-control" id="wp_react_kit_file_path" name="wp_react_kit_file_path[]" multiple="multiple">
+                            <?php
 
-                    foreach ($wp_react_kit_file_path as $file) {
-                        // Convert the file path to a relative path inside the "build" folder
-                        $relative_path = str_replace($build_folder . '/', '', $file);
+                            foreach ($wp_react_kit_file_path as $file) {
+                                // Convert the file path to a relative path inside the "build" folder
+                                $relative_path = str_replace($build_folder . '/', '', $file);
 
-                        echo '<option value="' . esc_attr($relative_path) . '" ';
-                        if (in_array($relative_path, $selected_files)) {
-                            echo 'selected';
-                        }
-                        echo '>' . esc_html($relative_path) . '</option>';
-                    }
+                                echo '<option value="' . esc_attr($relative_path) . '" ';
+                                if (in_array($relative_path, $selected_files)) {
+                                    echo 'selected';
+                                }
+                                echo '>' . esc_html($relative_path) . '</option>';
+                            }
 
-                    echo '</select>';
-                    ?>
+                            echo '</select>';
+                            ?>
+                            <script>
+                                jQuery(function($) {
+                                    // Convert the select element into a jQuery UI multiselect widget
+                                    $('.select2').select2({
+                                        placeholder: "Select assets",
+                                        theme: "classic",
+                                        allowClear: true,
+                                    });
+                                });
+                            </script>
+                    </label>
                 </div>
             </div>
 <?php

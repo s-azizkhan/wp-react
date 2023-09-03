@@ -3,6 +3,9 @@
 * Template Name: Wp React Kit App Template
 * Description: This is a custom page template for WP React Kit.
 */
+
+use SAzizKhan\WpReactKit\ShortCodes\ReactAppShortCode;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,13 +14,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php wp_head(); ?>
+    <?php do_action('wp_react_kit_app_head', $post); ?>
 </head>
 
 <body>
 
     <?php
-    $inject_id = $post->__get(WP_REACT_KIT_SHORTNAME . '_inject_id');
-    do_shortcode('[wp_react_kit_app injectId="' . $inject_id . '"]');
+    ReactAppShortCode::get_execute($post);
     ?>
 
     <?php wp_footer(); ?>

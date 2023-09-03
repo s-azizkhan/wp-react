@@ -30,8 +30,7 @@ class ReactAppShortCode  extends WpReactKitShortCode
     protected function get_default_attributes()
     {
         return [
-            'injectId' => false,
-            'filePath' => 'index.js',
+            'inject_id' => 'root',
         ];
     }
 
@@ -44,37 +43,18 @@ class ReactAppShortCode  extends WpReactKitShortCode
     public function handle_shortcode($atts, $content, $tag)
     {
         $attributes = $this->getAttributes($atts);
-        //$id = $attributes['id'];
-        $html = '<h1>React App</h1>';
-
-        // Set the template slug.
-        //$slug = "template-parts/content/content";
-
-        //// Set the template name based on the shortcode attributes.
-        //if (!$id) {
-        //    $id = "react-app";
-        //    $template_name = "{$slug}-react-app.php";
-        //} else {
-        //    $id = "react-app-{$id}";
-        //    $template_name = "{$slug}-{$id}.php";
-        //}
-
-        //// Remove any spaces from the ID and template name.
-        //$id = str_replace(' ', '', $id);
-        //$template_name = str_replace(' ', '', $template_name);
-
-
-        //// Check if template file exists.
-        //if (!file_exists(STYLESHEETPATH . '/' . $template_name)) {
-        //    // Log error and output div with id attribute.
-        //    error_log("File not found with $id");
-        //    $html_id = $id;
-        //    $html .= "<div id='{$html_id}'></div>";
-        //} else {
-        //    // Log error and output div with id attribute.
-        //    $html .= get_template_part($slug, $id);
-        //}
+        $html = '';
+        $html .= "<div id='{$attributes['inject_id']}'></div>";
         // Render the output
         return $this->renderOutput($html);
+    }
+
+    public static function get_execute($post)
+    {
+        $inject_id = $post->__get('wp_react_kit_inject_id');
+        $code = '[wp_react_kit_app inject_id="' . $inject_id . '"]';
+
+        do_shortcode($code);
+        return;
     }
 }

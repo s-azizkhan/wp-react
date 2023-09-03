@@ -49,6 +49,7 @@ if (!defined('ABSPATH')) {
                     <?php
                     $active_build = get_option('wp_react_kit_active_build', ''); // Retrieve the active build identifier
                     $media_ids = get_option('wp_react_kit_build_media_ids', array());
+                    $media_ids = array_unique($media_ids);
                     rsort($media_ids);
 
                     foreach ($media_ids as $media_id) {
@@ -65,6 +66,8 @@ if (!defined('ABSPATH')) {
 
                             // Check if this build is the active one
                             $is_active_build = ($active_build == $media_id);
+                            $nonce = wp_create_nonce('set_active_build_nonce');
+                            $set_active_url = add_query_arg(array('page' => 'wp-react-kit-build-manager', 'set_active_build' => $media_id, 'nonce' => $nonce), admin_url('admin.php'));
 
                     ?>
 
@@ -81,7 +84,7 @@ if (!defined('ABSPATH')) {
                                             </strong>
                                         </span>
                                     <?php else : ?>
-                                        <a href="?page=your-plugin-page&set_active_build=<?php echo esc_attr($media_id); ?>">Set as Active</a>
+                                        <a href="<?php echo esc_url($set_active_url); ?>">Set as Active</a>
                                     <?php endif; ?>
 
                                     <br>
