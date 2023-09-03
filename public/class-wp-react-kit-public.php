@@ -20,7 +20,8 @@
  * @subpackage Wp_React_Kit/public
  * @author     Aziz Khan <sakatazizkhan1@gmail.com>
  */
-class Wp_React_Kit_Public {
+class Wp_React_Kit_Public
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,11 +48,11 @@ class Wp_React_Kit_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -59,7 +60,8 @@ class Wp_React_Kit_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -73,8 +75,7 @@ class Wp_React_Kit_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wp-react-kit-public.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wp-react-kit-public.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -82,7 +83,8 @@ class Wp_React_Kit_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -96,8 +98,27 @@ class Wp_React_Kit_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-react-kit-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wp-react-kit-public.js', array('jquery'), $this->version, false);
+	}
+	// Disable emojis
+	function disable_wp_emojicons()
+	{
+		// Remove the emoji scripts and styles
+		remove_action('wp_head', 'print_emoji_detection_script', 7);
+		remove_action('admin_print_scripts', 'print_emoji_detection_script');
+		remove_action('wp_print_styles', 'print_emoji_styles');
+		remove_action('admin_print_styles', 'print_emoji_styles');
 
+		// Remove the TinyMCE emojis
+		add_filter('tiny_mce_plugins', [$this, 'disable_emojicons_tinymce']);
 	}
 
+	function disable_emojicons_tinymce($plugins)
+	{
+		if (is_array($plugins)) {
+			return array_diff($plugins, array('wpemoji'));
+		} else {
+			return array();
+		}
+	}
 }
