@@ -12,15 +12,15 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="wrap">
     <h2>
-        <?php _e('Manege React Build', WP_REACT_KIT_TEXTDOMAIN); ?>
+        <?php _e('Manage React Build', WP_REACT_KIT_TEXTDOMAIN); ?>
     </h2>
     <div class="wrk-build-container">
         <div class="wrk-build-left">
             <h3>
-                <?php _e('Manege React Builds', WP_REACT_KIT_TEXTDOMAIN); ?>
+                <?php _e('Manage React Builds', WP_REACT_KIT_TEXTDOMAIN); ?>
             </h3>
             <p>
-                <?php _e('Mange multiple React Builds here.', WP_REACT_KIT_TEXTDOMAIN); ?>
+                <?php _e('Manage multiple React Builds here.', WP_REACT_KIT_TEXTDOMAIN); ?>
             </p>
             <form method="post" action="<?php echo  admin_url('admin-post.php',); ?>" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="wp_react_kit_build_manager">
