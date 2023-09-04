@@ -29,4 +29,23 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+	/**
+	 * Load imgs from the build folder with lazy loading
+	 */
+	document.addEventListener('DOMContentLoaded', function() {
+		var lazyImages = document.querySelectorAll('img[src]');
+		lazyImages.forEach(function(img) {
+			const imgPath = img.getAttribute('src');
+			let imgSrc = imgPath;
+			if(imgSrc.startsWith('./')){
+				imgSrc = imgSrc.substr(1);
+				imgSrc = `${wpReactKit.pluginUrl}resources/js/dist/build${imgSrc}`;
+				img.setAttribute('src', imgSrc);
+			}
+			img.onload = function() {
+				img.setAttribute('data-src', imgPath);
+			};
+		});
+	});
+
 })( jQuery );

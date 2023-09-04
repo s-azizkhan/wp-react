@@ -56,6 +56,12 @@ class ReactInjection
             $selected_files[$i] = $build_url . $selected_files[$i];
         }
 
+        // if array is empty do nothing
+        if (empty($selected_files)) {
+            return;
+        }
+        wp_enqueue_script(WP_REACT_KIT_TEXTDOMAIN); // enqueue the main public script
+        
         foreach ($selected_files as $files) {
             // check is file JS or CSS
             if (strpos($files, '.js') !== false) {

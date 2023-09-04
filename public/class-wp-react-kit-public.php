@@ -97,8 +97,14 @@ class Wp_React_Kit_Public
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		// check if the current template is wp-react-kit-app-template.php then enqueue the script
+		wp_register_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wp-react-kit-public.js', array('jquery'), $this->version, false);
 
-		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wp-react-kit-public.js', array('jquery'), $this->version, false);
+		// localize the plugin's resources url
+		wp_localize_script($this->plugin_name, 'wpReactKit', [
+			'nonce' => wp_create_nonce('wp_react_kit_nonce'),
+			'pluginUrl' => WP_REACT_KIT_PLUGIN_URL
+		]);
 	}
 	// Disable emojis
 	function disable_wp_emojicons()
