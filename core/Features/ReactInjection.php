@@ -115,7 +115,7 @@ class ReactInjection
             <div>
 
                 <div>
-                    <label for="wp_react_kit_inject_id">FIle Path:</label>
+                    <label for="wp_react_kit_inject_id">Inject HTML ID:</label>
                     <input class="placeholder-shown:border-gray-500" placeholder="Enter you html inject ID" type="text" id=iwp_react_kit_inject_id" name="wp_react_kit_inject_id" value="<?php echo esc_attr($react_inject_id); ?>" />
                 </div>
 
