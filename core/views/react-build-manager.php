@@ -59,6 +59,9 @@ if (!defined('ABSPATH')) {
                             $file_name = $file_info->post_title;
                             $file_type = $file_info->post_mime_type;
                             $file_date = $file_info->post_date;
+                            if(!$file_type) {
+                                continue;
+                            }
 
                             // Get the user who uploaded the file
                             $uploaded_by = get_userdata($file_info->post_author);
